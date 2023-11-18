@@ -2,6 +2,8 @@
   "files.associations": {
     "*.ejs": "html",
     "*.sol": "solidity",
-    "*.mq5": "cpp"
-  }
+    "*.mq5": "cpp",
+    "*.mqh": "cpp"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
