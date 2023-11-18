@@ -90,7 +90,7 @@ void OnTick()
    double slowMA = iMA(_Symbol, PERIOD_CURRENT, SlowMAPeriod, 20, MODE_SMA, PRICE_CLOSE);
    
     // Check if there are open positions before opening new ones
-   if (!totalPositions) { 
+   if (true) { 
       if (fastMA > slowMA) {
             openPrice = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
             MarketOrder(ORDER_TYPE_BUY,jmlTrxTerbuka);
