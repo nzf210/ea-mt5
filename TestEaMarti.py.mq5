@@ -36,10 +36,10 @@ input int FastMAPeriod  = 5;
 input int SlowMAPeriod  = 10;
 input double Lots       = 0.01;
 input double StopLoss   = 30;
-input double TakeProfit = 6;
+input double TakeProfit = 5;
 input int Deviasi = 5;
 input bool aktif_sl = false;
-input bool aktif_tp = false;
+input bool aktif_tp = true;
 input int TrailingStart = 5; // Trailing Start distance in pips
 input int TrailingStop  = 10; // Trailing Stop distance in pips
 double openPrice, stopLossPrice, takeProfitPrice;
@@ -53,8 +53,7 @@ bool adaOpenTrx = false;
 //--- declaring and initializing structures
 MqlTradeRequest request={};
 MqlTradeResult  result={};
-int OrderType();
-int totalPositions = PositionsTotal();
+
 //+------------------------------------------------------------------+
 
 //+------------------------------------------------------------------+
@@ -68,7 +67,7 @@ int totalPositions = PositionsTotal();
 int OnInit()
    {
    return(INIT_SUCCEEDED);
-  }
+   }
 //+------------------------------------------------------------------+
 //| Expert deinitialization function                                 |
 //| Fungsi ini dipanggil saat EA dihentikan atau di-deinitialize     |
@@ -86,6 +85,7 @@ void OnDeinit(const int reason)
 //+------------------------------------------------------------------+
 void OnTick()
 {
+   int totalPositions = PositionsTotal();
    double fastMA = iMA(_Symbol, PERIOD_CURRENT, FastMAPeriod, 10, MODE_SMA, PRICE_CLOSE);
    double slowMA = iMA(_Symbol, PERIOD_CURRENT, SlowMAPeriod, 20, MODE_SMA, PRICE_CLOSE);
    
@@ -102,9 +102,9 @@ void OnTick()
             jmlTrxTerbuka++;
             buyType = "SELL";
       }
+      textDebug = "Jml trx terbuka: main " + totalPositions;
    } 
-   
-   if(totalPositions > 0) {
+   if(totalPositions >= 0) {
       if(buyType == "BUY"){
          ulong currentPrice = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
          // if((currentPrice-5) < openPrice) {
@@ -118,7 +118,7 @@ void OnTick()
             MarketOrder(ORDER_TYPE_BUY,jmlTrxTerbuka);
             jmlTrxTerbuka += 1 ;
          }
-         textDebug = "Jml trx terbuka: textDebug Buy " + jmlTrxTerbuka;
+         textDebug = "Jml trx terbuka: textDebug Buy " + totalPositions;
       }
 
       if(buyType == "SELL"){
